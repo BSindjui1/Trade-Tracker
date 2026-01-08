@@ -3,19 +3,20 @@ from update_sheets import export_open_positions
 
 
 # ---------- Shared helpers ----------
-
+# Helper function to pause execution until user presses Enter
 def pause():
     input("\nPress Enter to continue...")
 
-
+# ---------- Display headers ----------
 def print_option_header(include_amount=False):
     header = (
         f"|{'Symbol':<6}"
-        
+
         f"|{'Type':<6}"
         f"|{'Strike':<8}"
         f"|{'Expiration':<12}"
     )
+    # Add Amount column if specified
     if include_amount:
         header += f"|{'Amount':<10}"
     header += f"|{'Qty':>4}|"
@@ -25,6 +26,7 @@ def print_option_header(include_amount=False):
 
 
 # ---------- Display functions ----------
+
 
 def show_summary(trades, options_trades, open_positions, investments, cash_activity):
     print(f"\nOptions trades: {len(options_trades)}")
@@ -50,13 +52,13 @@ def show_investments(investments):
         return
 
     for inv in investments:
-
+        #checks for quantity to display appropriate text
         qty_display = (
             "Cash Dividend"
             if inv["quantity"] == 0
             else f"{inv['quantity']} shares"
         )
-
+# checks for share price to display appropriate text
         shr_display = (
             "N/A"
             if inv["quantity"] == 0
@@ -133,7 +135,7 @@ def show_options_menu(options_trades):
 
         if choice == 5:
             return
-
+    # Filter options trades based on user choice
         if choice == 1:
             filtered = [t for t in options_trades if t["option_type"].lower() == "call"]
         elif choice == 2:
@@ -171,7 +173,7 @@ def show_options_menu(options_trades):
 
 def main():
     trades, options_trades, open_positions, investments, cash_activity = parse_trades()
-
+# Define actions for main menu choices
     actions = {
         1: lambda: show_options_trades(options_trades),
         2: lambda: show_investments(investments),
@@ -181,6 +183,7 @@ def main():
         6: lambda: show_realized_pnl(options_trades),
         7: lambda: export_open_positions(open_positions)
     }
+
 
     while True:
         print("\nMain Menu")
@@ -192,7 +195,7 @@ def main():
         print("6. show Realized P&L")
         print("7. Export Open Positions to Excel")
         print("8. Exit")
-
+# Get user choice and filters actions
         try:
             choice = int(input("Enter your choice (1-8): "))
             if choice not in range(1, 9):
