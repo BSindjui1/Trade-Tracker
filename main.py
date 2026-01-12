@@ -1,5 +1,5 @@
 from Calculate_stats import parse_trades,calculate_realized_pnl
-from update_sheets import export_open_positions
+from update_sheets import export_options_trades
 
 
 # ---------- Shared helpers ----------
